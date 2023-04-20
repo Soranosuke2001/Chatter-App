@@ -8,7 +8,15 @@ interface pageProps {}
 const page: FC<pageProps> = ({}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function loginWithGoogle() {}
+  async function loginWithGoogle() {
+    setIsLoading(true);
+    
+    try {
+
+    } catch (error) {
+
+    }
+  }
   return (
     <>
       <div className="fex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
