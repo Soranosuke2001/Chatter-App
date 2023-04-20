@@ -1,6 +1,7 @@
 import FriendRequestsSidebarOption from "@/components/FriendRequestsSidebarOption";
 import { Icon, Icons } from "@/components/Icons";
 import SignOutButton from "@/components/SignOutButton";
+import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { Link } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -33,6 +34,8 @@ const Layout = async ({ children }: LayoutProps) => {
 
   // To protect sensitive data, should never be called but good to keep
   if (!session) notFound();
+
+  const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`) as User[]).length;
 
   return (
     <div className="w-full flex h-screen">
@@ -77,7 +80,10 @@ const Layout = async ({ children }: LayoutProps) => {
             </li>
 
             <li>
-              <FriendRequestsSidebarOption />
+              <FriendRequestsSidebarOption
+                sessionId={session.user.id}
+                initialUnseenRequestCount={unseenRequestCount}
+              />
             </li>
 
             <li className="-mx-6 mt-auto flex items-center">

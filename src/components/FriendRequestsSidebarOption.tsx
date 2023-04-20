@@ -1,12 +1,21 @@
+"use client";
+
 import { User } from "lucide-react";
 import Link from "next/link";
-import { FC } from "react";
+import { FC, useState } from "react";
 
-interface FriendRequestsSidebarOptionProps {}
+interface FriendRequestsSidebarOptionProps {
+  initialUnseenRequestCount: number;
+  sessionId: string;
+}
 
-const FriendRequestsSidebarOption: FC<
-  FriendRequestsSidebarOptionProps
-> = ({}) => {
+const FriendRequestsSidebarOption: FC<FriendRequestsSidebarOptionProps> = ({
+  initialUnseenRequestCount,
+  sessionId,
+}) => {
+  const [unseenRequestCount, setUnseenRequestCount] = useState<number>(
+    initialUnseenRequestCount
+  );
   return (
     <Link
       href="/dashboard/requests"
@@ -16,6 +25,11 @@ const FriendRequestsSidebarOption: FC<
         <User className="h-4 w-4" />
       </div>
       <p className="truncate">Friend Requests</p>
+      {unseenRequestCount > 0 ? (
+        <div className='rounded-full w-5 h-5 text-xs flex justify-center items-center text-white bg-indigo-600'>
+            {unseenRequestCount}
+        </div>
+      ) : null}
     </Link>
   );
 };
