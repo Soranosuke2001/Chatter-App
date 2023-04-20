@@ -4,7 +4,7 @@ import { FC, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 interface ProvidersProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
 const Providers: FC<ProvidersProps> = ({ children }) => {
