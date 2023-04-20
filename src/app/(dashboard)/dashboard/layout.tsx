@@ -35,8 +35,13 @@ const Layout = async ({ children }: LayoutProps) => {
   // To protect sensitive data, should never be called but good to keep
   if (!session) notFound();
 
-  const unseenRequestCount = (await fetchRedis('smembers', `user:${session.user.id}:incoming_friend_requests`) as User[]).length;
-
+  const unseenRequestCount = (
+    (await fetchRedis(
+      "smembers",
+      `user:${session.user.id}:incoming_friend_requests`
+    )) as User[]
+  ).length;
+  
   return (
     <div className="w-full flex h-screen">
       <div className="flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
@@ -55,7 +60,7 @@ const Layout = async ({ children }: LayoutProps) => {
               Chats
             </li>
             <li>
-              <div className="text-xs font-semibold leading-6 text-gray-600">
+              <div className="text-xs font-semibold leading-6 text-gray-400">
                 Overview
               </div>
               <ul role="list" className="mx-2 mt-2 space-y-1">
@@ -76,14 +81,14 @@ const Layout = async ({ children }: LayoutProps) => {
                     </li>
                   );
                 })}
-              </ul>
-            </li>
 
-            <li>
-              <FriendRequestsSidebarOption
-                sessionId={session.user.id}
-                initialUnseenRequestCount={unseenRequestCount}
-              />
+                <li>
+                  <FriendRequestsSidebarOption
+                    sessionId={session.user.id}
+                    initialUnseenRequestCount={unseenRequestCount}
+                  />
+                </li>
+              </ul>
             </li>
 
             <li className="-mx-6 mt-auto flex items-center">
