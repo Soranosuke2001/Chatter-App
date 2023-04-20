@@ -1,4 +1,5 @@
 import { Icon, Icons } from "@/components/Icons";
+import SignOutButton from "@/components/SignOutButton";
 import { authOptions } from "@/lib/auth";
 import { Link } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -92,6 +93,8 @@ const Layout = async ({ children }: LayoutProps) => {
                   </span>
                 </div>
               </div>
+
+              <SignOutButton className='h-full aspect-square' />
             </li>
           </ul>
         </nav>
