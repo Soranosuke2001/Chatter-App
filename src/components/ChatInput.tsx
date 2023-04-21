@@ -17,6 +17,10 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const sendMessage = async () => {
+    if (!input) {
+      toast.error("Please enter a message.");
+      return;
+    }
     setIsLoading(true);
 
     try {
