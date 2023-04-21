@@ -8,6 +8,8 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { FC, ReactNode } from "react";
+import { getFriendsByUserId } from "@/helpers/get-friends";
+import SideBarChatList from "@/components/SideBarChatList";
 
 interface LayoutProps {
   children: ReactNode;
@@ -35,6 +37,8 @@ const Layout = async ({ children }: LayoutProps) => {
   // To protect sensitive data, should never be called but good to keep
   if (!session) notFound();
 
+  const friends = await getFriendsByUserId(session.user.id);
+
   const unseenRequestCount = (
     (await fetchRedis(
       "smembers",
@@ -49,15 +53,14 @@ const Layout = async ({ children }: LayoutProps) => {
           <Icons.Logo className="h-8 w-auto test-indigo-600" />
         </Link>
 
-        <div className="text-xs font-semibold leading-6 text-gray-400">
+        {friends.length > 0 ? (<div className="text-xs font-semibold leading-6 text-gray-400">
           Your Chats
-        </div>
+        </div>) : null}
 
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <li>
-              {/* render the list of all the chats for the user */}
-              Chats
+              <SideBarChatList friends={friends} sessionId={session.user.id} />
             </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
