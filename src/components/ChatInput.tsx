@@ -2,12 +2,13 @@
 
 import axios from "axios";
 import { FC, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "./ui/Button";
 
 interface ChatInputProps {
-  chatPartner: User
-  chatId: string
+  chatPartner: User;
+  chatId: string;
 }
 
 const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
@@ -19,9 +20,13 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
     setIsLoading(true);
 
     try {
-        await axios.post('/api/messages/send', {text: input, chatId })
+      await axios.post("/api/message/send", { text: input, chatId });
+      setInput("");
+      textareaRef.current?.focus();
     } catch (error) {
-
+      toast.error("Something went wrong. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,10 +58,12 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
           </div>
         </div>
 
-        <div className='absolute right-0 bottom-0 flex justify-between py-2 pl-3 pr-3'>
-            <div className='flex-shrink-0'>
-                <Button onClick={sendMessage} type='submit' isLoading={isLoading}>Post</Button>
-            </div>
+        <div className="absolute right-0 bottom-0 flex justify-between py-2 pl-3 pr-3">
+          <div className="flex-shrink-0">
+            <Button onClick={sendMessage} type="submit" isLoading={isLoading}>
+              Post
+            </Button>
+          </div>
         </div>
       </div>
     </div>
