@@ -3,7 +3,7 @@ import { Icon, Icons } from "@/components/Icons";
 import SignOutButton from "@/components/SignOutButton";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
-import { Link } from "lucide-react";
+import Link from 'next/link';
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { notFound } from "next/navigation";
