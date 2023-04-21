@@ -5,7 +5,6 @@ import { chatHrefContructor, toPusherKey } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { StringLiteral } from "typescript";
 import UnseenChatToast from "./UnseenChatToast";
 
 interface SideBarChatListProps {
@@ -21,6 +20,7 @@ interface ExtendedMessage extends Message {
 const SideBarChatList: FC<SideBarChatListProps> = ({ friends, sessionId }) => {
   // This will only show unread messages while you are online
   const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
+  const [activeChats, setActiveChat] = useState<User[]>(friends);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,8 +28,8 @@ const SideBarChatList: FC<SideBarChatListProps> = ({ friends, sessionId }) => {
     pusherClient.subscribe(toPusherKey(`user:${sessionId}:chats`));
     pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
 
-    const newFriendHandler = () => {
-      router.refresh();
+    const newFriendHandler = (newFriend: User) => {
+      setActiveChat((prev) => [...prev, newFriend]);
     };
 
     const chatHandler = (message: ExtendedMessage) => {
@@ -75,7 +75,7 @@ const SideBarChatList: FC<SideBarChatListProps> = ({ friends, sessionId }) => {
 
   return (
     <ul role="list" className="max-h-[25rem] overflow-y-auto -mx-2 space-y-1">
-      {friends.sort().map((friend) => {
+      {activeChats.sort().map((friend) => {
         const unseenMessagesCount = unseenMessages.filter((unseenMsg) => {
           return unseenMsg.senderId === friend.id;
         }).length;
