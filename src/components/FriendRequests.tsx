@@ -35,7 +35,7 @@ const FriendRequests: FC<FriendRequestsProps> = ({
       pusherClient.unbind('incoming_friend_requests', friendRequestHandler)
 
     }
-  }, [])
+  }, [sessionId])
 
   // Add a friend on click
   const acceptFriend = async (senderId: string) => {
