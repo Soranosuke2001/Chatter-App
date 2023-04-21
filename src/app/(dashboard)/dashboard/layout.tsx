@@ -3,7 +3,7 @@ import { Icon, Icons } from "@/components/Icons";
 import SignOutButton from "@/components/SignOutButton";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
-import Link from 'next/link';
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -45,7 +45,7 @@ const Layout = async ({ children }: LayoutProps) => {
       `user:${session.user.id}:incoming_friend_requests`
     )) as User[]
   ).length;
-  
+
   return (
     <div className="w-full flex h-screen">
       <div className="flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
@@ -53,9 +53,11 @@ const Layout = async ({ children }: LayoutProps) => {
           <Icons.Logo className="h-8 w-auto test-indigo-600" />
         </Link>
 
-        {friends.length > 0 ? (<div className="text-xs font-semibold leading-6 text-gray-400">
-          Your Chats
-        </div>) : null}
+        {friends.length > 0 ? (
+          <div className="text-xs font-semibold leading-6 text-gray-400">
+            Your Chats
+          </div>
+        ) : null}
 
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -119,7 +121,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      {children}
+      <aside className='max-h-screen container py-16 md:py-12 w-full'>{children}</aside>
     </div>
   );
 };
